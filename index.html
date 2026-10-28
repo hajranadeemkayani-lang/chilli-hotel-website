@@ -1,0 +1,1282 @@
+<!DOCTYPE html>
+<html lang="en" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Chilli & Spice | Artisanal Spicy Cuisine & Fine Dining</title>
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        chilli: {
+                            50: '#fff1f2',
+                            100: '#ffe4e6',
+                            500: '#e11d48',
+                            600: '#C8102E',
+                            700: '#990000',
+                            800: '#770000',
+                        },
+                        paprika: {
+                            500: '#E25822',
+                            600: '#c84412',
+                        },
+                        charcoal: {
+                            800: '#262626',
+                            900: '#1A1A1A',
+                            950: '#0f0f0f',
+                        },
+                        cream: '#FFF9F6',
+                        gold: '#D4AF37',
+                    },
+                    fontFamily: {
+                        heading: ['Playfair Display', 'serif'],
+                        body: ['Poppins', 'sans-serif'],
+                    }
+                }
+            }
+        }
+    </script>
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,500;0,600;0,700;0,800;1,400&family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <!-- FontAwesome Icons CDN -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
+    <style>
+        body {
+            font-family: 'Poppins', sans-serif;
+            background-color: #FFF9F6;
+            color: #1A1A1A;
+            overflow-x: hidden;
+        }
+
+        h1, h2, h3, h4, .font-serif {
+            font-family: 'Playfair Display', serif;
+        }
+
+        /* Custom Scrollbar */
+        ::-webkit-scrollbar {
+            width: 10px;
+        }
+        ::-webkit-scrollbar-track {
+            background: #1A1A1A;
+        }
+        ::-webkit-scrollbar-thumb {
+            background: #C8102E;
+            border-radius: 5px;
+        }
+        ::-webkit-scrollbar-thumb:hover {
+            background: #E25822;
+        }
+
+        /* Glassmorphism effects */
+        .glass-nav {
+            background: rgba(26, 26, 26, 0.92);
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+        }
+
+        .glass-card {
+            background: rgba(255, 255, 255, 0.85);
+            backdrop-filter: blur(8px);
+        }
+
+        /* Slide Animation Transitions */
+        .carousel-slide {
+            opacity: 0;
+            transition: opacity 0.8s ease-in-out, transform 0.8s ease-in-out;
+            transform: scale(1.03);
+            pointer-events: none;
+            position: absolute;
+            inset: 0;
+        }
+
+        .carousel-slide.active {
+            opacity: 1;
+            transform: scale(1);
+            pointer-events: auto;
+            position: relative;
+        }
+
+        /* Modal Overlay Fade */
+        .modal-backdrop {
+            transition: opacity 0.3s ease-in-out;
+        }
+
+        /* Flame Bounce Effect */
+        @keyframes flamePulse {
+            0%, 100% { transform: scale(1) rotate(0deg); }
+            50% { transform: scale(1.15) rotate(-3deg); }
+        }
+        .animate-flame {
+            animation: flamePulse 2s infinite ease-in-out;
+        }
+
+        /* Dynamic Badge Glow */
+        .gold-glow {
+            box-shadow: 0 0 15px rgba(212, 175, 55, 0.4);
+        }
+    </style>
+</head>
+<body class="relative">
+
+    <!-- TOP ANNOUNCEMENT BAR -->
+    <div class="bg-gradient-to-r from-chilli-700 via-paprika-500 to-chilli-700 text-white text-xs md:text-sm py-2 px-4 text-center font-medium flex items-center justify-center gap-2 z-50 relative">
+        <span><i class="fa-solid fa-fire text-gold animate-bounce"></i> Spice Lovers Special: Free Chef's Tasting Appetizer on orders over $60!</span>
+        <button onclick="openReservationModal()" class="underline font-bold hover:text-gold transition-colors hidden sm:inline-block ml-2">Book Table Now</button>
+    </div>
+
+    <!-- MAIN STICKY NAVIGATION -->
+    <header class="sticky top-0 z-40 glass-nav text-white border-b border-white/10 transition-all duration-300" id="navbar">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex items-center justify-between h-20">
+                
+                <!-- Logo -->
+                <a href="#" class="flex items-center gap-3 group">
+                    <div class="w-12 h-12 rounded-full bg-gradient-to-tr from-chilli-700 to-paprika-500 flex items-center justify-center text-white text-2xl shadow-lg group-hover:scale-105 transition-transform">
+                        <i class="fa-solid fa-pepper-hot"></i>
+                    </div>
+                    <div>
+                        <span class="text-2xl font-bold font-serif tracking-wider text-white flex items-center gap-1">
+                            CHILLI <span class="text-paprika-500">&</span> SPICE
+                        </span>
+                        <span class="block text-[10px] uppercase tracking-widest text-gold font-medium -mt-1">Artisanal Dining</span>
+                    </div>
+                </a>
+
+                <!-- Desktop Nav Links -->
+                <nav class="hidden md:flex items-center space-x-8 font-medium text-sm">
+                    <a href="#home" class="hover:text-paprika-500 transition-colors py-1 border-b-2 border-transparent hover:border-paprika-500">Home</a>
+                    <a href="#menu" class="hover:text-paprika-500 transition-colors py-1 border-b-2 border-transparent hover:border-paprika-500">Menu</a>
+                    <a href="#spice-meter" class="hover:text-paprika-500 transition-colors py-1 border-b-2 border-transparent hover:border-paprika-500 flex items-center gap-1 text-gold">
+                        <i class="fa-solid fa-pepper-hot text-xs"></i> Spice Meter
+                    </a>
+                    <a href="#story" class="hover:text-paprika-500 transition-colors py-1 border-b-2 border-transparent hover:border-paprika-500">Our Story</a>
+                    <a href="#location" class="hover:text-paprika-500 transition-colors py-1 border-b-2 border-transparent hover:border-paprika-500">Location</a>
+                </nav>
+
+                <!-- Action Buttons & Cart -->
+                <div class="hidden lg:flex items-center space-x-4">
+                    <button onclick="openReservationModal()" class="bg-gradient-to-r from-paprika-500 to-chilli-600 hover:from-chilli-600 hover:to-chilli-700 text-white font-semibold px-5 py-2.5 rounded-full shadow-md hover:shadow-chilli-600/30 transition-all text-sm flex items-center gap-2">
+                        <i class="fa-regular fa-calendar-check"></i> Book Table
+                    </button>
+                    
+                    <!-- Cart Trigger Button -->
+                    <button onclick="toggleCartDrawer()" class="relative p-2.5 bg-charcoal-800 hover:bg-charcoal-700 text-white rounded-full transition-colors border border-white/10" aria-label="View Cart">
+                        <i class="fa-solid fa-basket-shopping text-lg"></i>
+                        <span id="cart-counter" class="absolute -top-1 -right-1 bg-chilli-600 text-white text-xs font-bold w-5 h-5 rounded-full flex items-center justify-center animate-pulse">0</span>
+                    </button>
+                </div>
+
+                <!-- Mobile Hamburger Button -->
+                <div class="flex items-center gap-3 md:hidden">
+                    <button onclick="toggleCartDrawer()" class="relative p-2 text-white" aria-label="View Cart">
+                        <i class="fa-solid fa-basket-shopping text-xl"></i>
+                        <span id="cart-counter-mobile" class="absolute -top-1 -right-1 bg-chilli-600 text-white text-[10px] font-bold w-4 h-4 rounded-full flex items-center justify-center">0</span>
+                    </button>
+                    <button id="mobile-menu-btn" onclick="toggleMobileMenu()" class="text-2xl text-white p-2 focus:outline-none" aria-label="Toggle Menu">
+                        <i class="fa-solid fa-bars"></i>
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Mobile Drawer Menu -->
+        <div id="mobile-menu" class="hidden md:hidden bg-charcoal-900 border-b border-white/10 px-4 pt-2 pb-6 space-y-3">
+            <a href="#home" onclick="toggleMobileMenu()" class="block py-2 text-gray-200 hover:text-paprika-500 font-medium border-b border-white/5">Home</a>
+            <a href="#menu" onclick="toggleMobileMenu()" class="block py-2 text-gray-200 hover:text-paprika-500 font-medium border-b border-white/5">Menu</a>
+            <a href="#spice-meter" onclick="toggleMobileMenu()" class="block py-2 text-gold hover:text-paprika-500 font-medium border-b border-white/5">Spice Intensity Meter</a>
+            <a href="#story" onclick="toggleMobileMenu()" class="block py-2 text-gray-200 hover:text-paprika-500 font-medium border-b border-white/5">Our Story</a>
+            <a href="#location" onclick="toggleMobileMenu()" class="block py-2 text-gray-200 hover:text-paprika-500 font-medium border-b border-white/5">Location & Contact</a>
+            <button onclick="toggleMobileMenu(); openReservationModal()" class="w-full mt-3 bg-gradient-to-r from-paprika-500 to-chilli-600 text-white font-semibold py-3 rounded-xl shadow-md">
+                Book A Table
+            </button>
+        </div>
+    </header>
+
+    <!-- HERO SECTION WITH AUTO-PLAY SLIDER -->
+    <section id="home" class="relative bg-charcoal-950 text-white min-h-[85vh] flex items-center overflow-hidden">
+        
+        <!-- Carousel Slides Container -->
+        <div id="hero-carousel" class="absolute inset-0 w-full h-full">
+            
+            <!-- Slide 1 -->
+            <div class="carousel-slide active">
+                <div class="absolute inset-0 bg-gradient-to-r from-charcoal-950 via-charcoal-950/80 to-transparent z-10"></div>
+                <img src="https://images.unsplash.com/photo-1585937421612-70a008356fbe?auto=format&fit=crop&w=1920&q=80" alt="Authentic Spicy Curry" class="w-full h-full object-cover object-center">
+                <div class="absolute inset-0 z-20 flex items-center max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+                    <div class="max-w-2xl space-y-6">
+                        <span class="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-chilli-600/30 border border-chilli-500 text-paprika-500 text-xs sm:text-sm font-semibold tracking-wide uppercase">
+                            <i class="fa-solid fa-pepper-hot"></i> House Signature Dish
+                        </span>
+                        <h1 class="text-4xl sm:text-6xl font-extrabold text-white leading-tight">
+                            Ignite Your Palate With <span class="text-transparent bg-clip-text bg-gradient-to-r from-paprika-500 via-gold to-chilli-600">Pure Passion</span>
+                        </h1>
+                        <p class="text-gray-300 text-base sm:text-lg font-light leading-relaxed">
+                            Experience the boldest hand-ground spices, fiery tandoori grills, and slow-crafted curries designed to elevate your dining adventure.
+                        </p>
+                        <div class="flex flex-wrap gap-4 pt-2">
+                            <a href="#menu" class="bg-gradient-to-r from-chilli-600 to-paprika-500 hover:from-chilli-700 hover:to-paprika-600 text-white font-bold px-8 py-3.5 rounded-full shadow-lg hover:shadow-chilli-600/50 transition-all text-center">
+                                Explore Menu
+                            </a>
+                            <button onclick="openReservationModal()" class="bg-white/10 hover:bg-white/20 border border-white/30 text-white font-semibold px-8 py-3.5 rounded-full transition-all text-center backdrop-blur-sm">
+                                Reserve Table
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Slide 2 -->
+            <div class="carousel-slide">
+                <div class="absolute inset-0 bg-gradient-to-r from-charcoal-950 via-charcoal-950/80 to-transparent z-10"></div>
+                <img src="https://images.unsplash.com/photo-1544025162-d76694265947?auto=format&fit=crop&w=1920&q=80" alt="Smoky Tandoori Grill" class="w-full h-full object-cover object-center">
+                <div class="absolute inset-0 z-20 flex items-center max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+                    <div class="max-w-2xl space-y-6">
+                        <span class="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-gold/20 border border-gold text-gold text-xs sm:text-sm font-semibold tracking-wide uppercase">
+                            <i class="fa-solid fa-fire-flame-curved"></i> Smoky Clay Oven Magic
+                        </span>
+                        <h1 class="text-4xl sm:text-6xl font-extrabold text-white leading-tight">
+                            Fiery Tandoori & <span class="text-transparent bg-clip-text bg-gradient-to-r from-gold via-paprika-500 to-chilli-500">Charred Delights</span>
+                        </h1>
+                        <p class="text-gray-300 text-base sm:text-lg font-light leading-relaxed">
+                            Marinated for 24 hours in our secret spice blend and seared in 800°F traditional clay ovens for unparalleled tenderness.
+                        </p>
+                        <div class="flex flex-wrap gap-4 pt-2">
+                            <a href="#menu" class="bg-gradient-to-r from-chilli-600 to-paprika-500 hover:from-chilli-700 hover:to-paprika-600 text-white font-bold px-8 py-3.5 rounded-full shadow-lg transition-all">
+                                Order Online
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Slide 3 -->
+            <div class="carousel-slide">
+                <div class="absolute inset-0 bg-gradient-to-r from-charcoal-950 via-charcoal-950/80 to-transparent z-10"></div>
+                <img src="https://images.unsplash.com/photo-1514362545857-3bc16c4c7d1b?auto=format&fit=crop&w=1920&q=80" alt="Craft Spicy Cocktails" class="w-full h-full object-cover object-center">
+                <div class="absolute inset-0 z-20 flex items-center max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+                    <div class="max-w-2xl space-y-6">
+                        <span class="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-paprika-500/30 border border-paprika-500 text-paprika-500 text-xs sm:text-sm font-semibold tracking-wide uppercase">
+                            <i class="fa-solid fa-glass-martini-alt"></i> Artisanal Mixology
+                        </span>
+                        <h1 class="text-4xl sm:text-6xl font-extrabold text-white leading-tight">
+                            Infused Cocktails & <span class="text-transparent bg-clip-text bg-gradient-to-r from-paprika-500 to-chilli-600">Cool Elixirs</span>
+                        </h1>
+                        <p class="text-gray-300 text-base sm:text-lg font-light leading-relaxed">
+                            Refresh your soul with our signature Spicy Mango Margaritas, Habanero Smoke Infusions, and herbal cooling tonics.
+                        </p>
+                        <div class="flex flex-wrap gap-4 pt-2">
+                            <a href="#menu" class="bg-gradient-to-r from-chilli-600 to-paprika-500 hover:from-chilli-700 hover:to-paprika-600 text-white font-bold px-8 py-3.5 rounded-full shadow-lg transition-all">
+                                Drink Menu
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+
+        <!-- Carousel Navigation Controls -->
+        <button id="prev-slide" class="absolute left-4 top-1/2 -translate-y-1/2 z-30 w-12 h-12 rounded-full bg-black/40 hover:bg-chilli-600 text-white flex items-center justify-center border border-white/20 transition-all focus:outline-none" aria-label="Previous Slide">
+            <i class="fa-solid fa-chevron-left"></i>
+        </button>
+        <button id="next-slide" class="absolute right-4 top-1/2 -translate-y-1/2 z-30 w-12 h-12 rounded-full bg-black/40 hover:bg-chilli-600 text-white flex items-center justify-center border border-white/20 transition-all focus:outline-none" aria-label="Next Slide">
+            <i class="fa-solid fa-chevron-right"></i>
+        </button>
+
+        <!-- Carousel Dots Indicator -->
+        <div id="carousel-dots" class="absolute bottom-6 left-1/2 -translate-x-1/2 z-30 flex items-center gap-3">
+            <button class="w-3 h-3 rounded-full bg-white transition-all w-8 bg-chilli-600" aria-label="Slide 1"></button>
+            <button class="w-3 h-3 rounded-full bg-white/50 transition-all" aria-label="Slide 2"></button>
+            <button class="w-3 h-3 rounded-full bg-white/50 transition-all" aria-label="Slide 3"></button>
+        </div>
+    </section>
+
+    <!-- INTERACTIVE SPICE LEVEL SELECTOR (FEATURE TOOL) -->
+    <section id="spice-meter" class="py-16 bg-gradient-to-b from-charcoal-950 via-charcoal-900 to-charcoal-950 text-white relative">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
+            
+            <div class="max-w-xl mx-auto mb-10">
+                <span class="text-gold uppercase tracking-widest text-xs font-bold">Interactive Experience</span>
+                <h2 class="text-3xl sm:text-4xl font-extrabold mt-1">What's Your Spice Tolerance?</h2>
+                <p class="text-gray-400 text-sm mt-2">Adjust the slider below to dynamically highlight recommended dishes tailored precisely to your heat preference.</p>
+            </div>
+
+            <!-- Spice Level Slider Control -->
+            <div class="max-w-2xl mx-auto bg-charcoal-800/90 border border-white/10 p-6 sm:p-8 rounded-3xl shadow-2xl">
+                
+                <div class="flex items-center justify-between mb-6">
+                    <span id="spice-label" class="text-2xl font-bold font-serif text-paprika-500 flex items-center gap-2">
+                        <i class="fa-solid fa-pepper-hot text-chilli-600"></i> Medium Heat (Classic Spice)
+                    </span>
+                    <span id="spice-badge" class="px-3 py-1 rounded-full text-xs font-bold uppercase bg-paprika-500/20 text-paprika-500 border border-paprika-500">
+                        Level 2
+                    </span>
+                </div>
+
+                <input type="range" id="spice-range-slider" min="1" max="4" value="2" step="1" 
+                       class="w-full h-3 bg-charcoal-950 rounded-lg appearance-none cursor-pointer accent-chilli-600 focus:outline-none">
+
+                <div class="flex justify-between text-xs text-gray-400 font-semibold mt-3">
+                    <span class="cursor-pointer hover:text-white" onclick="setSpiceLevel(1)">1: Mild & Gentle</span>
+                    <span class="cursor-pointer hover:text-white" onclick="setSpiceLevel(2)">2: Medium Heat</span>
+                    <span class="cursor-pointer hover:text-white" onclick="setSpiceLevel(3)">3: Hot & Fiery</span>
+                    <span class="cursor-pointer hover:text-white text-chilli-500" onclick="setSpiceLevel(4)">4: Extreme Ghost Pepper</span>
+                </div>
+
+                <div class="mt-6 pt-4 border-t border-white/10 flex items-center justify-between text-xs text-gray-300">
+                    <span id="spice-recommendation-text">Recommended for: Spice enthusiasts who enjoy balanced warmth with rich layered spices.</span>
+                    <button onclick="filterMenuBySpiceFromMeter()" class="bg-chilli-600 hover:bg-chilli-700 text-white font-medium px-4 py-1.5 rounded-lg ml-3 flex-shrink-0 transition-colors">
+                        View Dishes
+                    </button>
+                </div>
+
+            </div>
+
+        </div>
+    </section>
+
+    <!-- INTERACTIVE MENU SECTION -->
+    <section id="menu" class="py-20 bg-cream relative">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            
+            <div class="text-center max-w-2xl mx-auto mb-12">
+                <span class="text-paprika-500 uppercase tracking-widest text-xs font-bold">Handcrafted Culinary Delights</span>
+                <h2 class="text-4xl sm:text-5xl font-extrabold text-charcoal-900 mt-2">Our Spice Menu</h2>
+                <div class="w-24 h-1 bg-gradient-to-r from-chilli-600 to-paprika-500 mx-auto mt-4 rounded-full"></div>
+            </div>
+
+            <!-- Search & Filter Controls -->
+            <div class="flex flex-col md:flex-row items-center justify-between gap-6 mb-10">
+                
+                <!-- Category Tabs -->
+                <div class="flex flex-wrap justify-center md:justify-start gap-2 w-full md:w-auto" id="menu-tabs">
+                    <button data-category="all" class="menu-tab active px-5 py-2.5 rounded-full font-medium text-sm transition-all bg-chilli-600 text-white shadow-md">All Dishes</button>
+                    <button data-category="starters" class="menu-tab px-5 py-2.5 rounded-full font-medium text-sm transition-all bg-white text-charcoal-800 hover:bg-paprika-500 hover:text-white border border-gray-200">Starters</button>
+                    <button data-category="tandoor" class="menu-tab px-5 py-2.5 rounded-full font-medium text-sm transition-all bg-white text-charcoal-800 hover:bg-paprika-500 hover:text-white border border-gray-200">Tandoor & Grill</button>
+                    <button data-category="curries" class="menu-tab px-5 py-2.5 rounded-full font-medium text-sm transition-all bg-white text-charcoal-800 hover:bg-paprika-500 hover:text-white border border-gray-200">Curries</button>
+                    <button data-category="desserts" class="menu-tab px-5 py-2.5 rounded-full font-medium text-sm transition-all bg-white text-charcoal-800 hover:bg-paprika-500 hover:text-white border border-gray-200">Desserts</button>
+                    <button data-category="drinks" class="menu-tab px-5 py-2.5 rounded-full font-medium text-sm transition-all bg-white text-charcoal-800 hover:bg-paprika-500 hover:text-white border border-gray-200">Cocktails</button>
+                </div>
+
+                <!-- Search Input Bar -->
+                <div class="relative w-full md:w-72">
+                    <input type="text" id="menu-search-input" placeholder="Search dish or spice..." class="w-full pl-10 pr-4 py-2.5 rounded-full border border-gray-300 bg-white focus:outline-none focus:ring-2 focus:ring-chilli-600 text-sm shadow-sm">
+                    <i class="fa-solid fa-search absolute left-3.5 top-1/2 -translate-y-1/2 text-gray-400"></i>
+                </div>
+
+            </div>
+
+            <!-- Dynamic Menu Grid (3 cols desktop, 2 cols tablet, 1 col mobile) -->
+            <div id="menu-grid" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+                <!-- Dishes render dynamically via JS -->
+            </div>
+
+            <!-- Empty State Notice -->
+            <div id="no-results" class="hidden text-center py-16">
+                <i class="fa-solid fa-pepper-hot text-5xl text-gray-300 mb-3"></i>
+                <h3 class="text-xl font-bold text-gray-700">No dishes match your selection</h3>
+                <p class="text-gray-500 text-sm mt-1">Try searching for another dish or clearing your filters.</p>
+                <button onclick="resetMenuFilters()" class="mt-4 bg-chilli-600 text-white text-sm px-5 py-2 rounded-full font-semibold">Reset Filters</button>
+            </div>
+
+        </div>
+    </section>
+
+    <!-- OUR SPICE STORY & PHILOSOPHY -->
+    <section id="story" class="py-20 bg-charcoal-900 text-white overflow-hidden relative">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
+                
+                <!-- Left Story Column -->
+                <div class="space-y-6">
+                    <span class="text-gold uppercase tracking-widest text-xs font-bold">Craftsmanship & Heritage</span>
+                    <h2 class="text-4xl sm:text-5xl font-extrabold leading-tight">
+                        Rooted in Ancient Spice Roads, Crafted for <span class="text-paprika-500">Modern Lovers</span>
+                    </h2>
+                    <p class="text-gray-300 text-base leading-relaxed">
+                        At <strong class="text-white">Chilli & Spice</strong>, spice isn't just heat—it's a symphony of flavor, aroma, and complexity. Founded by Chef Vikram Raichand, our kitchen sources rare hand-harvested spices directly from single-estate farms across South Asia, Mexico, and the Caribbean.
+                    </p>
+                    <p class="text-gray-400 text-sm leading-relaxed">
+                        Every curry is slow-simmered for over 8 hours, and every naan is slapped against live clay oven walls. We balance intense peppers with soothing cream, fragrant saffron, and fresh citrus.
+                    </p>
+
+                    <!-- Feature Bullet Highlights -->
+                    <div class="grid grid-cols-2 gap-4 pt-4 border-t border-white/10">
+                        <div class="flex items-center gap-3">
+                            <div class="w-10 h-10 rounded-full bg-chilli-600/20 text-chilli-500 flex items-center justify-center font-bold">
+                                <i class="fa-solid fa-leaf"></i>
+                            </div>
+                            <div>
+                                <h4 class="font-bold text-sm">100% Organic</h4>
+                                <p class="text-xs text-gray-400">Single-origin spices</p>
+                            </div>
+                        </div>
+
+                        <div class="flex items-center gap-3">
+                            <div class="w-10 h-10 rounded-full bg-paprika-500/20 text-paprika-500 flex items-center justify-center font-bold">
+                                <i class="fa-solid fa-fire"></i>
+                            </div>
+                            <div>
+                                <h4 class="font-bold text-sm">Traditional Clay</h4>
+                                <p class="text-xs text-gray-400">Authentic Tandoor</p>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+
+                <!-- Right Visual Column -->
+                <div class="relative">
+                    <div class="relative z-10 rounded-2xl overflow-hidden shadow-2xl border border-white/10">
+                        <img src="https://images.unsplash.com/photo-1555396273-367ea4eb4db5?auto=format&fit=crop&w=1000&q=80" alt="Chef preparing spice blend" class="w-full h-auto object-cover hover:scale-105 transition-transform duration-700">
+                    </div>
+                    <!-- Decorative background glow -->
+                    <div class="absolute -top-10 -right-10 w-72 h-72 bg-chilli-600/30 rounded-full blur-3xl -z-0"></div>
+                    <div class="absolute -bottom-10 -left-10 w-72 h-72 bg-paprika-500/20 rounded-full blur-3xl -z-0"></div>
+                </div>
+
+            </div>
+        </div>
+    </section>
+
+    <!-- LOCATION, HOURS & CONTACT SECTION -->
+    <section id="location" class="py-20 bg-cream">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            
+            <div class="text-center max-w-2xl mx-auto mb-14">
+                <span class="text-paprika-500 uppercase tracking-widest text-xs font-bold">Visit Our Restaurant</span>
+                <h2 class="text-4xl font-extrabold text-charcoal-900 mt-1">Location & Opening Hours</h2>
+                <p class="text-gray-600 text-sm mt-2">Located in the vibrant heart of the culinary district. Drop in or order online.</p>
+            </div>
+
+            <div class="grid grid-cols-1 lg:grid-cols-3 gap-8 items-stretch">
+                
+                <!-- Contact Card 1: Hours -->
+                <div class="bg-white p-8 rounded-2xl shadow-sm border border-gray-100 flex flex-col justify-between hover:shadow-md transition-shadow">
+                    <div>
+                        <div class="w-12 h-12 rounded-full bg-chilli-50 text-chilli-600 flex items-center justify-center text-xl mb-6">
+                            <i class="fa-regular fa-clock"></i>
+                        </div>
+                        <h3 class="text-xl font-bold text-charcoal-900 mb-4">Opening Hours</h3>
+                        <ul class="space-y-3 text-sm text-gray-600">
+                            <li class="flex justify-between border-b pb-2">
+                                <span>Monday - Thursday:</span>
+                                <span class="font-semibold text-charcoal-900">12:00 PM - 10:30 PM</span>
+                            </li>
+                            <li class="flex justify-between border-b pb-2">
+                                <span>Friday - Saturday:</span>
+                                <span class="font-semibold text-chilli-600">12:00 PM - 11:30 PM</span>
+                            </li>
+                            <li class="flex justify-between border-b pb-2">
+                                <span>Sunday:</span>
+                                <span class="font-semibold text-charcoal-900">1:00 PM - 10:00 PM</span>
+                            </li>
+                        </ul>
+                    </div>
+                    <div class="mt-6 pt-4 border-t text-xs text-gray-500">
+                        <i class="fa-solid fa-motorcycle text-paprika-500 mr-1"></i> Delivery available during all opening hours.
+                    </div>
+                </div>
+
+                <!-- Contact Card 2: Contact Info -->
+                <div class="bg-white p-8 rounded-2xl shadow-sm border border-gray-100 flex flex-col justify-between hover:shadow-md transition-shadow">
+                    <div>
+                        <div class="w-12 h-12 rounded-full bg-paprika-500/10 text-paprika-500 flex items-center justify-center text-xl mb-6">
+                            <i class="fa-solid fa-location-dot"></i>
+                        </div>
+                        <h3 class="text-xl font-bold text-charcoal-900 mb-4">Get In Touch</h3>
+                        <div class="space-y-4 text-sm text-gray-600">
+                            <p class="flex items-start gap-3">
+                                <i class="fa-solid fa-map-marker-alt text-chilli-600 mt-1"></i>
+                                <span>742 Fiery Spice Boulevard, Culinary Quarter, NY 10012</span>
+                            </p>
+                            <p class="flex items-center gap-3">
+                                <i class="fa-solid fa-phone text-chilli-600"></i>
+                                <a href="tel:+12125557742" class="hover:text-chilli-600 font-semibold">+1 (212) 555-SPICE</a>
+                            </p>
+                            <p class="flex items-center gap-3">
+                                <i class="fa-solid fa-envelope text-chilli-600"></i>
+                                <a href="mailto:reservations@chillispice.com" class="hover:text-chilli-600">reservations@chillispice.com</a>
+                            </p>
+                        </div>
+                    </div>
+                    <div class="mt-8 flex gap-3">
+                        <a href="https://maps.google.com" target="_blank" class="flex-1 bg-charcoal-900 hover:bg-charcoal-800 text-white text-center py-2.5 rounded-xl text-sm font-medium transition-colors flex items-center justify-center gap-2">
+                            <i class="fa-solid fa-diamond-turn-right"></i> Directions
+                        </a>
+                        <a href="tel:+12125557742" class="flex-1 bg-chilli-600 hover:bg-chilli-700 text-white text-center py-2.5 rounded-xl text-sm font-medium transition-colors flex items-center justify-center gap-2">
+                            <i class="fa-solid fa-phone"></i> Call Now
+                        </a>
+                    </div>
+                </div>
+
+                <!-- Interactive Map Embed Frame -->
+                <div class="bg-charcoal-900 rounded-2xl overflow-hidden shadow-sm border border-gray-200 min-h-[300px] relative">
+                    <iframe title="Chilli & Spice Location Map" 
+                            src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3022.6175412496153!2d-73.985428!3d40.748817!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x89c259a9b3117469%3A0xd134e199a405a163!2sEmpire%20State%20Building!5e0!2m3!1sen!2sus!4v1680000000000!5m2!1sen!2sus" 
+                            class="w-full h-full min-h-[320px] border-0" 
+                            allowfullscreen="" 
+                            loading="lazy" 
+                            referrerpolicy="no-referrer-when-downgrade">
+                    </iframe>
+                </div>
+
+            </div>
+
+        </div>
+    </section>
+
+    <!-- FOOTER -->
+    <footer class="bg-charcoal-950 text-gray-400 py-12 border-t border-white/10">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="grid grid-cols-1 md:grid-cols-4 gap-8 mb-8">
+                
+                <!-- Col 1: Brand -->
+                <div class="space-y-4">
+                    <div class="flex items-center gap-2">
+                        <i class="fa-solid fa-pepper-hot text-paprika-500 text-2xl"></i>
+                        <span class="text-xl font-serif font-bold text-white">CHILLI & SPICE</span>
+                    </div>
+                    <p class="text-xs text-gray-400 leading-relaxed">
+                        Authentic culinary journeys infused with rich aromatic spices, fiery grills, and hand-crafted hospitality.
+                    </p>
+                </div>
+
+                <!-- Col 2: Quick Links -->
+                <div>
+                    <h4 class="text-white text-sm font-bold uppercase tracking-wider mb-4">Quick Links</h4>
+                    <ul class="space-y-2 text-xs">
+                        <li><a href="#home" class="hover:text-paprika-500">Home</a></li>
+                        <li><a href="#menu" class="hover:text-paprika-500">Full Menu</a></li>
+                        <li><a href="#spice-meter" class="hover:text-paprika-500">Spice Meter</a></li>
+                        <li><a href="#story" class="hover:text-paprika-500">Our Heritage</a></li>
+                    </ul>
+                </div>
+
+                <!-- Col 3: Legal & Info -->
+                <div>
+                    <h4 class="text-white text-sm font-bold uppercase tracking-wider mb-4">Information</h4>
+                    <ul class="space-y-2 text-xs">
+                        <li><a href="#" class="hover:text-paprika-500">Privacy Policy</a></li>
+                        <li><a href="#" class="hover:text-paprika-500">Terms of Service</a></li>
+                        <li><a href="#" class="hover:text-paprika-500">Allergen Guide</a></li>
+                        <li><a href="#" class="hover:text-paprika-500">Catering Services</a></li>
+                    </ul>
+                </div>
+
+                <!-- Col 4: Newsletter -->
+                <div>
+                    <h4 class="text-white text-sm font-bold uppercase tracking-wider mb-4">Spice Club Newsletter</h4>
+                    <p class="text-xs text-gray-400 mb-3">Subscribe for exclusive tasting invites & special offers.</p>
+                    <form onsubmit="event.preventDefault(); alert('Thank you for subscribing to Chilli & Spice Club!');" class="flex gap-2">
+                        <input type="email" placeholder="Your email address" required class="bg-charcoal-800 text-white text-xs px-3 py-2 rounded-lg border border-white/10 w-full focus:outline-none focus:border-paprika-500">
+                        <button type="submit" class="bg-chilli-600 hover:bg-chilli-700 text-white px-3 py-2 rounded-lg text-xs font-bold transition-colors">Join</button>
+                    </form>
+                </div>
+
+            </div>
+
+            <div class="pt-8 border-t border-white/5 text-center text-xs text-gray-500 flex flex-col sm:flex-row items-center justify-between gap-4">
+                <p>&copy; 2026 Chilli & Spice Restaurant. All Rights Reserved.</p>
+                <div class="flex space-x-4 text-lg">
+                    <a href="#" class="hover:text-paprika-500"><i class="fa-brands fa-instagram"></i></a>
+                    <a href="#" class="hover:text-paprika-500"><i class="fa-brands fa-facebook"></i></a>
+                    <a href="#" class="hover:text-paprika-500"><i class="fa-brands fa-tiktok"></i></a>
+                    <a href="#" class="hover:text-paprika-500"><i class="fa-brands fa-tripadvisor"></i></a>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <!-- SLIDE-OUT CART DRAWER -->
+    <div id="cart-drawer" class="fixed inset-0 z-50 overflow-hidden pointer-events-none transition-opacity duration-300 opacity-0">
+        <div id="cart-backdrop" onclick="toggleCartDrawer()" class="absolute inset-0 bg-black/60 backdrop-blur-sm pointer-events-none transition-opacity"></div>
+        
+        <div class="fixed inset-y-0 right-0 max-w-full flex pl-10">
+            <div id="cart-content" class="w-screen max-w-md bg-white shadow-2xl flex flex-col transform translate-x-full transition-transform duration-300 pointer-events-auto">
+                
+                <!-- Drawer Header -->
+                <div class="p-6 bg-charcoal-900 text-white flex items-center justify-between border-b border-white/10">
+                    <div class="flex items-center gap-2">
+                        <i class="fa-solid fa-basket-shopping text-paprika-500 text-xl"></i>
+                        <h3 class="text-xl font-bold font-serif">Your Order</h3>
+                    </div>
+                    <button onclick="toggleCartDrawer()" class="text-gray-400 hover:text-white text-xl p-1" aria-label="Close Cart">
+                        <i class="fa-solid fa-xmark"></i>
+                    </button>
+                </div>
+
+                <!-- Drawer Cart Items list -->
+                <div id="cart-items-container" class="flex-1 overflow-y-auto p-6 space-y-4">
+                    <!-- Dynamic cart items JS -->
+                </div>
+
+                <!-- Drawer Footer & Checkout -->
+                <div class="p-6 bg-gray-50 border-t border-gray-200 space-y-4">
+                    <div class="space-y-1 text-sm text-gray-600">
+                        <div class="flex justify-between">
+                            <span>Subtotal</span>
+                            <span id="cart-subtotal" class="font-bold text-charcoal-900">$0.00</span>
+                        </div>
+                        <div class="flex justify-between">
+                            <span>Estimated Tax & Service</span>
+                            <span id="cart-tax" class="text-gray-500">$0.00</span>
+                        </div>
+                        <div class="flex justify-between text-base font-bold text-charcoal-900 pt-2 border-t">
+                            <span>Total Amount</span>
+                            <span id="cart-total" class="text-chilli-600">$0.00</span>
+                        </div>
+                    </div>
+
+                    <button onclick="processCheckout()" id="checkout-btn" class="w-full bg-gradient-to-r from-chilli-600 to-paprika-500 hover:from-chilli-700 hover:to-paprika-600 text-white font-bold py-3.5 rounded-xl shadow-lg transition-all text-center flex items-center justify-center gap-2 disabled:opacity-50 disabled:cursor-not-allowed" disabled>
+                        <span>Proceed to Checkout</span>
+                        <i class="fa-solid fa-arrow-right"></i>
+                    </button>
+                </div>
+
+            </div>
+        </div>
+    </div>
+
+    <!-- QUICK VIEW DISH MODAL -->
+    <div id="dish-modal" class="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/70 backdrop-blur-sm opacity-0 pointer-events-none transition-opacity duration-300">
+        <div class="bg-white rounded-3xl max-w-2xl w-full overflow-hidden shadow-2xl transform scale-95 transition-transform duration-300 relative" id="dish-modal-content">
+            <button onclick="closeDishModal()" class="absolute top-4 right-4 z-10 w-10 h-10 rounded-full bg-black/50 text-white hover:bg-chilli-600 flex items-center justify-center transition-colors">
+                <i class="fa-solid fa-xmark"></i>
+            </button>
+            <div id="dish-modal-body">
+                <!-- Content injected dynamically -->
+            </div>
+        </div>
+    </div>
+
+    <!-- TABLE RESERVATION MODAL -->
+    <div id="reservation-modal" class="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/70 backdrop-blur-sm opacity-0 pointer-events-none transition-opacity duration-300">
+        <div class="bg-white rounded-3xl max-w-xl w-full overflow-hidden shadow-2xl transform scale-95 transition-transform duration-300 relative">
+            
+            <div class="bg-charcoal-900 text-white p-6 border-b border-white/10 flex items-center justify-between">
+                <div>
+                    <h3 class="text-2xl font-bold font-serif text-white">Reserve A Table</h3>
+                    <p class="text-xs text-gray-400 mt-1">Book your dining experience at Chilli & Spice</p>
+                </div>
+                <button onclick="closeReservationModal()" class="text-gray-400 hover:text-white text-xl">
+                    <i class="fa-solid fa-xmark"></i>
+                </button>
+            </div>
+
+            <form id="reservation-form" onsubmit="handleReservationSubmit(event)" class="p-6 space-y-4">
+                
+                <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                    <div>
+                        <label class="block text-xs font-bold text-gray-700 uppercase mb-1">Full Name</label>
+                        <input type="text" required placeholder="John Doe" class="w-full px-4 py-2.5 rounded-xl border border-gray-300 text-sm focus:ring-2 focus:ring-chilli-600 focus:outline-none">
+                    </div>
+                    <div>
+                        <label class="block text-xs font-bold text-gray-700 uppercase mb-1">Phone Number</label>
+                        <input type="tel" required placeholder="+1 (555) 000-0000" class="w-full px-4 py-2.5 rounded-xl border border-gray-300 text-sm focus:ring-2 focus:ring-chilli-600 focus:outline-none">
+                    </div>
+                </div>
+
+                <div class="grid grid-cols-1 sm:grid-cols-3 gap-4">
+                    <div>
+                        <label class="block text-xs font-bold text-gray-700 uppercase mb-1">Date</label>
+                        <input type="date" id="res-date" required class="w-full px-3 py-2.5 rounded-xl border border-gray-300 text-sm focus:ring-2 focus:ring-chilli-600 focus:outline-none">
+                    </div>
+                    <div>
+                        <label class="block text-xs font-bold text-gray-700 uppercase mb-1">Time Slot</label>
+                        <select required class="w-full px-3 py-2.5 rounded-xl border border-gray-300 text-sm focus:ring-2 focus:ring-chilli-600 focus:outline-none">
+                            <option value="">Select Time</option>
+                            <option>5:00 PM</option>
+                            <option>6:30 PM</option>
+                            <option>8:00 PM</option>
+                            <option>9:30 PM</option>
+                        </select>
+                    </div>
+                    <div>
+                        <label class="block text-xs font-bold text-gray-700 uppercase mb-1">Guests</label>
+                        <select required class="w-full px-3 py-2.5 rounded-xl border border-gray-300 text-sm focus:ring-2 focus:ring-chilli-600 focus:outline-none">
+                            <option value="2">2 Guests</option>
+                            <option value="4">4 Guests</option>
+                            <option value="6">6 Guests</option>
+                            <option value="8">8+ Guests (Party)</option>
+                        </select>
+                    </div>
+                </div>
+
+                <div>
+                    <label class="block text-xs font-bold text-gray-700 uppercase mb-1">Seating Area Preference</label>
+                    <div class="grid grid-cols-3 gap-2">
+                        <label class="border rounded-xl p-3 text-center cursor-pointer hover:border-chilli-600 has-[:checked]:border-chilli-600 has-[:checked]:bg-chilli-50">
+                            <input type="radio" name="seating" value="Indoor" checked class="hidden">
+                            <i class="fa-solid fa-chair text-chilli-600 block mb-1"></i>
+                            <span class="text-xs font-medium">Indoor Dining</span>
+                        </label>
+                        <label class="border rounded-xl p-3 text-center cursor-pointer hover:border-chilli-600 has-[:checked]:border-chilli-600 has-[:checked]:bg-chilli-50">
+                            <input type="radio" name="seating" value="Patio" class="hidden">
+                            <i class="fa-solid fa-umbrella-beach text-paprika-500 block mb-1"></i>
+                            <span class="text-xs font-medium">Patio Terrace</span>
+                        </label>
+                        <label class="border rounded-xl p-3 text-center cursor-pointer hover:border-chilli-600 has-[:checked]:border-chilli-600 has-[:checked]:bg-chilli-50">
+                            <input type="radio" name="seating" value="Chef Counter" class="hidden">
+                            <i class="fa-solid fa-fire text-gold block mb-1"></i>
+                            <span class="text-xs font-medium">Chef's Counter</span>
+                        </label>
+                    </div>
+                </div>
+
+                <div>
+                    <label class="block text-xs font-bold text-gray-700 uppercase mb-1">Special Requests / Dietary Notes</label>
+                    <textarea rows="2" placeholder="Anniversaries, allergies, spice tolerances..." class="w-full px-4 py-2 rounded-xl border border-gray-300 text-sm focus:ring-2 focus:ring-chilli-600 focus:outline-none"></textarea>
+                </div>
+
+                <button type="submit" class="w-full bg-gradient-to-r from-chilli-600 to-paprika-500 hover:from-chilli-700 hover:to-paprika-600 text-white font-bold py-3 rounded-xl shadow-lg transition-all mt-2">
+                    Confirm Reservation
+                </button>
+            </form>
+
+        </div>
+    </div>
+
+    <!-- JAVASCRIPT LOGIC -->
+    <script>
+        /* DISHES DATASET */
+        const MENU_DATA = [
+            {
+                id: '1',
+                title: 'Ghost Pepper Chicken Tikka',
+                category: 'starters',
+                price: 18.50,
+                spiceLevel: 3, // 1 to 4 scale
+                spiceName: 'Fiery Hot',
+                badges: ['GF', 'Halal'],
+                image: 'https://images.unsplash.com/photo-1599487488170-d11ec9c172f0?auto=format&fit=crop&w=600&q=80',
+                description: 'Tender chicken bites marinated in ghost pepper infused yogurt, charred in the clay oven.',
+                calories: '480 kcal',
+                allergens: 'Dairy, Garlic'
+            },
+            {
+                id: '2',
+                title: 'Signature Lamb Rogan Josh',
+                category: 'curries',
+                price: 26.00,
+                spiceLevel: 2,
+                spiceName: 'Medium Heat',
+                badges: ['GF', 'Halal'],
+                image: 'https://images.unsplash.com/photo-1545247181-516773cae754?auto=format&fit=crop&w=600&q=80',
+                description: 'Slow-cooked braised lamb shoulder in an aromatic Kashmiri chilli & saffron caramelized gravy.',
+                calories: '650 kcal',
+                allergens: 'Tree Nuts'
+            },
+            {
+                id: '3',
+                title: 'Smoky Tandoori Mixed Grill',
+                category: 'tandoor',
+                price: 32.00,
+                spiceLevel: 2,
+                spiceName: 'Medium Heat',
+                badges: ['Halal'],
+                image: 'https://images.unsplash.com/photo-1544025162-d76694265947?auto=format&fit=crop&w=600&q=80',
+                description: 'Sizzling platter of lamb chops, fiery prawns, malai tikka, and spiced seekh kebabs.',
+                calories: '820 kcal',
+                allergens: 'Shellfish, Dairy'
+            },
+            {
+                id: '4',
+                title: 'Habanero Mango Butter Chicken',
+                category: 'curries',
+                price: 23.50,
+                spiceLevel: 1,
+                spiceName: 'Mild Heat',
+                badges: ['GF'],
+                image: 'https://images.unsplash.com/photo-1588166524941-3bf61a9c41db?auto=format&fit=crop&w=600&q=80',
+                description: 'Velvety sweet-and-spicy tomato sauce infused with Alphonso mango and habanero essence.',
+                calories: '590 kcal',
+                allergens: 'Dairy, Cashews'
+            },
+            {
+                id: '5',
+                title: 'Charcoal Roasted Paneer Tikka',
+                category: 'starters',
+                price: 16.00,
+                spiceLevel: 2,
+                spiceName: 'Medium Heat',
+                badges: ['GF', 'Vegan Option'],
+                image: 'https://images.unsplash.com/photo-1567188040759-fb8a883dc6d8?auto=format&fit=crop&w=600&q=80',
+                description: 'Cottage cheese cubes marinated with bell peppers, mustard oil, and ground red chillies.',
+                calories: '410 kcal',
+                allergens: 'Dairy'
+            },
+            {
+                id: '6',
+                title: 'Fiery Dragon Tail Prawns',
+                category: 'starters',
+                price: 21.00,
+                spiceLevel: 3,
+                spiceName: 'Hot & Fiery',
+                badges: ['GF'],
+                image: 'https://images.unsplash.com/photo-1565557623262-b51c2513a641?auto=format&fit=crop&w=600&q=80',
+                description: 'Jumbo Tiger prawns tossed in Sichuan pepper flakes, garlic butter, and fresh cilantro.',
+                calories: '380 kcal',
+                allergens: 'Shellfish'
+            },
+            {
+                id: '7',
+                title: 'Volcano Reaper Curry',
+                category: 'curries',
+                price: 28.00,
+                spiceLevel: 4,
+                spiceName: 'Extreme Reaper',
+                badges: ['GF', 'Halal'],
+                image: 'https://images.unsplash.com/photo-1585937421612-70a008356fbe?auto=format&fit=crop&w=600&q=80',
+                description: 'Our legendary challenge curry made with Carolina Reaper mash, dark cocoa, and roasted cumin.',
+                calories: '610 kcal',
+                allergens: 'None'
+            },
+            {
+                id: '8',
+                title: 'Cardamom & Chilli Chocolate Mousse',
+                category: 'desserts',
+                price: 12.00,
+                spiceLevel: 1,
+                spiceName: 'Subtle Warmth',
+                badges: ['Vegetarian'],
+                image: 'https://images.unsplash.com/photo-1541781774459-bb2af2f05b55?auto=format&fit=crop&w=600&q=80',
+                description: 'Rich 70% dark Belgian chocolate mousse infused with red cayenne hint and gold leaf.',
+                calories: '320 kcal',
+                allergens: 'Dairy, Eggs'
+            },
+            {
+                id: '9',
+                title: 'Smoky Jalapeño Mezcalita',
+                category: 'drinks',
+                price: 16.00,
+                spiceLevel: 2,
+                spiceName: 'Zesty Kick',
+                badges: ['Vegan'],
+                image: 'https://images.unsplash.com/photo-1514362545857-3bc16c4c7d1b?auto=format&fit=crop&w=600&q=80',
+                description: 'Artisanal Mezcal, charred jalapeño reduction, fresh lime, and tajín rimmed glass.',
+                calories: '190 kcal',
+                allergens: 'None'
+            }
+        ];
+
+        /* STATE MANAGEMENT */
+        let cart = [];
+        let currentSlide = 0;
+        let slideInterval = null;
+        let activeCategory = 'all';
+
+        /* INITIALIZATION ON DOM LOAD */
+        document.addEventListener('DOMContentLoaded', () => {
+            renderMenuGrid();
+            setupCarousel();
+            setupTabListeners();
+            setupSearchListener();
+            setupSpiceMeterListener();
+            setMinBookingDate();
+        });
+
+        /* RENDER MENU GRID */
+        function renderMenuGrid(dishes = MENU_DATA) {
+            const container = document.getElementById('menu-grid');
+            const noResults = document.getElementById('no-results');
+
+            if (!dishes.length) {
+                container.innerHTML = '';
+                noResults.classList.remove('hidden');
+                return;
+            }
+
+            noResults.classList.add('hidden');
+            
+            container.innerHTML = dishes.map(dish => {
+                // Generate chilli icons string
+                let chilliIcons = '';
+                for (let i = 0; i < dish.spiceLevel; i++) {
+                    chilliIcons += `<i class="fa-solid fa-pepper-hot text-chilli-600 text-xs"></i>`;
+                }
+
+                return `
+                <div class="bg-white rounded-3xl overflow-hidden shadow-sm hover:shadow-xl transition-all duration-300 border border-gray-100 flex flex-col group">
+                    <!-- Image Wrapper -->
+                    <div class="relative h-56 overflow-hidden bg-gray-100">
+                        <img src="${dish.image}" alt="${dish.title}" class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500">
+                        
+                        <!-- Heat Badge Top Right -->
+                        <div class="absolute top-3 right-3 bg-charcoal-900/90 backdrop-blur-md px-3 py-1 rounded-full flex items-center gap-1 shadow-md border border-white/10">
+                            ${chilliIcons}
+                            <span class="text-[10px] text-white font-bold uppercase ml-1">${dish.spiceName}</span>
+                        </div>
+
+                        <!-- Dietary Badges Top Left -->
+                        <div class="absolute top-3 left-3 flex flex-wrap gap-1">
+                            ${dish.badges.map(b => `<span class="bg-white/90 backdrop-blur-md text-charcoal-900 text-[10px] font-extrabold px-2 py-0.5 rounded-md shadow-sm">${b}</span>`).join('')}
+                        </div>
+                    </div>
+
+                    <!-- Card Body -->
+                    <div class="p-6 flex-1 flex flex-col justify-between space-y-4">
+                        <div>
+                            <div class="flex items-start justify-between gap-2">
+                                <h3 class="text-xl font-bold font-serif text-charcoal-900 group-hover:text-chilli-600 transition-colors">${dish.title}</h3>
+                                <span class="text-lg font-extrabold text-chilli-600">$${dish.price.toFixed(2)}</span>
+                            </div>
+                            <p class="text-gray-500 text-xs sm:text-sm mt-2 leading-relaxed line-clamp-2">${dish.description}</p>
+                        </div>
+
+                        <!-- Actions Row -->
+                        <div class="pt-3 border-t border-gray-100 flex items-center gap-2">
+                            <button onclick="openDishModal('${dish.id}')" class="flex-1 text-xs font-semibold py-2.5 px-3 rounded-xl border border-gray-200 text-gray-700 hover:bg-gray-100 transition-colors flex items-center justify-center gap-1">
+                                <i class="fa-regular fa-eye"></i> Details
+                            </button>
+                            <button onclick="addToCart('${dish.id}')" class="flex-1 bg-chilli-600 hover:bg-chilli-700 text-white text-xs font-bold py-2.5 px-3 rounded-xl shadow-md transition-all flex items-center justify-center gap-1">
+                                <i class="fa-solid fa-plus"></i> Add to Order
+                            </button>
+                        </div>
+                    </div>
+                </div>
+                `;
+            }).join('');
+        }
+
+        /* HERO CAROUSEL CONTROLLER */
+        function setupCarousel() {
+            const slides = document.querySelectorAll('.carousel-slide');
+            const dots = document.querySelectorAll('#carousel-dots button');
+            const prevBtn = document.getElementById('prev-slide');
+            const nextBtn = document.getElementById('next-slide');
+
+            function showSlide(index) {
+                slides.forEach((slide, i) => {
+                    slide.classList.toggle('active', i === index);
+                });
+                dots.forEach((dot, i) => {
+                    dot.className = i === index 
+                        ? 'w-8 h-3 rounded-full bg-chilli-600 transition-all' 
+                        : 'w-3 h-3 rounded-full bg-white/50 transition-all';
+                });
+                currentSlide = index;
+            }
+
+            function nextSlide() {
+                let next = (currentSlide + 1) % slides.length;
+                showSlide(next);
+            }
+
+            function prevSlide() {
+                let prev = (currentSlide - 1 + slides.length) % slides.length;
+                showSlide(prev);
+            }
+
+            // Controls listeners
+            nextBtn.addEventListener('click', () => { nextSlide(); resetTimer(); });
+            prevBtn.addEventListener('click', () => { prevSlide(); resetTimer(); });
+
+            dots.forEach((dot, idx) => {
+                dot.addEventListener('click', () => { showSlide(idx); resetTimer(); });
+            });
+
+            // Auto advance timer
+            function startTimer() {
+                slideInterval = setInterval(nextSlide, 5000);
+            }
+
+            function resetTimer() {
+                clearInterval(slideInterval);
+                startTimer();
+            }
+
+            startTimer();
+
+            // Pause auto-play on hover
+            const heroSection = document.getElementById('home');
+            heroSection.addEventListener('mouseenter', () => clearInterval(slideInterval));
+            heroSection.addEventListener('mouseleave', startTimer);
+        }
+
+        /* MENU CATEGORY FILTER TABS */
+        function setupTabListeners() {
+            const tabs = document.querySelectorAll('.menu-tab');
+            tabs.forEach(tab => {
+                tab.addEventListener('click', (e) => {
+                    tabs.forEach(t => {
+                        t.className = 'menu-tab px-5 py-2.5 rounded-full font-medium text-sm transition-all bg-white text-charcoal-800 hover:bg-paprika-500 hover:text-white border border-gray-200';
+                    });
+
+                    e.target.className = 'menu-tab active px-5 py-2.5 rounded-full font-medium text-sm transition-all bg-chilli-600 text-white shadow-md';
+                    
+                    activeCategory = e.target.dataset.category;
+                    filterMenu();
+                });
+            });
+        }
+
+        /* MENU SEARCH LISTENERS */
+        function setupSearchListener() {
+            const input = document.getElementById('menu-search-input');
+            input.addEventListener('input', filterMenu);
+        }
+
+        function filterMenu() {
+            const query = document.getElementById('menu-search-input').value.toLowerCase();
+            const filtered = MENU_DATA.filter(dish => {
+                const matchesCategory = activeCategory === 'all' || dish.category === activeCategory;
+                const matchesSearch = dish.title.toLowerCase().includes(query) || dish.description.toLowerCase().includes(query);
+                return matchesCategory && matchesSearch;
+            });
+            renderMenuGrid(filtered);
+        }
+
+        function resetMenuFilters() {
+            document.getElementById('menu-search-input').value = '';
+            document.querySelector('[data-category="all"]').click();
+        }
+
+        /* SPICE INTENSITY METER FEATURE */
+        function setupSpiceMeterListener() {
+            const slider = document.getElementById('spice-range-slider');
+            slider.addEventListener('input', (e) => updateSpiceMeterDisplay(parseInt(e.target.value)));
+        }
+
+        function setSpiceLevel(level) {
+            document.getElementById('spice-range-slider').value = level;
+            updateSpiceMeterDisplay(level);
+        }
+
+        function updateSpiceMeterDisplay(level) {
+            const label = document.getElementById('spice-label');
+            const badge = document.getElementById('spice-badge');
+            const rec = document.getElementById('spice-recommendation-text');
+
+            const levelsInfo = {
+                1: {
+                    label: '<i class="fa-solid fa-seedling text-emerald-500"></i> Mild & Gentle Heat',
+                    badge: 'Level 1',
+                    badgeClass: 'bg-emerald-500/20 text-emerald-400 border-emerald-500',
+                    desc: 'Perfect for subtle warmth, smooth creaminess, and aromatic herb lovers.'
+                },
+                2: {
+                    label: '<i class="fa-solid fa-pepper-hot text-paprika-500"></i> Medium Heat (Classic)',
+                    badge: 'Level 2',
+                    badgeClass: 'bg-paprika-500/20 text-paprika-500 border-paprika-500',
+                    desc: 'Balanced spice warmth layer that tickles the tongue without overpowering.'
+                },
+                3: {
+                    label: '<i class="fa-solid fa-fire text-chilli-600"></i> Hot & Fiery',
+                    badge: 'Level 3',
+                    badgeClass: 'bg-chilli-600/20 text-chilli-500 border-chilli-500',
+                    desc: 'For authentic spice enthusiasts who relish rich pepper heat and bold sweat.'
+                },
+                4: {
+                    label: '<i class="fa-solid fa-skull-crossbones text-red-500 animate-pulse"></i> Extreme Ghost Reaper',
+                    badge: 'Level 4',
+                    badgeClass: 'bg-red-600/30 text-red-400 border-red-500 gold-glow',
+                    desc: 'Daredevils only! Infused with pure Ghost Pepper and Carolina Reaper extracts.'
+                }
+            };
+
+            const info = levelsInfo[level];
+            label.innerHTML = info.label;
+            badge.innerHTML = info.badge;
+            badge.className = `px-3 py-1 rounded-full text-xs font-bold uppercase border ${info.badgeClass}`;
+            rec.innerHTML = `Recommended for: ${info.desc}`;
+        }
+
+        function filterMenuBySpiceFromMeter() {
+            const level = parseInt(document.getElementById('spice-range-slider').value);
+            const filtered = MENU_DATA.filter(dish => dish.spiceLevel === level);
+            
+            // Scroll to menu section smoothly
+            document.getElementById('menu').scrollIntoView({ behavior: 'smooth' });
+            renderMenuGrid(filtered);
+        }
+
+        /* CART & SHOPPING LOGIC */
+        function addToCart(dishId) {
+            const dish = MENU_DATA.find(d => d.id === dishId);
+            if (!dish) return;
+
+            const existingItem = cart.find(item => item.id === dishId);
+            if (existingItem) {
+                existingItem.quantity += 1;
+            } else {
+                cart.push({ ...dish, quantity: 1, customSpice: dish.spiceName });
+            }
+
+            updateCartUI();
+            toggleCartDrawer(true); // Open drawer on addition
+        }
+
+        function updateQuantity(dishId, delta) {
+            const item = cart.find(i => i.id === dishId);
+            if (!item) return;
+
+            item.quantity += delta;
+            if (item.quantity <= 0) {
+                cart = cart.filter(i => i.id !== dishId);
+            }
+            updateCartUI();
+        }
+
+        function updateCartUI() {
+            const count = cart.reduce((sum, item) => sum + item.quantity, 0);
+            const subtotal = cart.reduce((sum, item) => sum + (item.price * item.quantity), 0);
+            const tax = subtotal * 0.08875; // tax rate
+            const total = subtotal + tax;
+
+            // Counters
+            document.getElementById('cart-counter').innerText = count;
+            document.getElementById('cart-counter-mobile').innerText = count;
+
+            // Drawer List Container
+            const container = document.getElementById('cart-items-container');
+            const checkoutBtn = document.getElementById('checkout-btn');
+
+            if (!cart.length) {
+                container.innerHTML = `
+                    <div class="text-center py-16 text-gray-400">
+                        <i class="fa-solid fa-basket-shopping text-5xl mb-3 text-gray-300"></i>
+                        <p class="font-bold text-gray-600">Your basket is empty</p>
+                        <p class="text-xs mt-1">Explore our spicy menu to add items.</p>
+                    </div>
+                `;
+                checkoutBtn.disabled = true;
+            } else {
+                checkoutBtn.disabled = false;
+                container.innerHTML = cart.map(item => `
+                    <div class="flex items-center gap-4 bg-gray-50 p-3 rounded-2xl border border-gray-100">
+                        <img src="${item.image}" alt="${item.title}" class="w-16 h-16 rounded-xl object-cover">
+                        <div class="flex-1">
+                            <h4 class="font-bold text-sm text-charcoal-900">${item.title}</h4>
+                            <span class="text-xs text-chilli-600 font-bold">$${(item.price * item.quantity).toFixed(2)}</span>
+                            
+                            <div class="flex items-center gap-2 mt-2">
+                                <button onclick="updateQuantity('${item.id}', -1)" class="w-6 h-6 rounded-md bg-gray-200 hover:bg-chilli-600 hover:text-white text-xs flex items-center justify-center font-bold">
+                                    -
+                                </button>
+                                <span class="text-xs font-bold text-gray-800">${item.quantity}</span>
+                                <button onclick="updateQuantity('${item.id}', 1)" class="w-6 h-6 rounded-md bg-gray-200 hover:bg-chilli-600 hover:text-white text-xs flex items-center justify-center font-bold">
+                                    +
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                `).join('');
+            }
+
+            // Totals
+            document.getElementById('cart-subtotal').innerText = `$${subtotal.toFixed(2)}`;
+            document.getElementById('cart-tax').innerText = `$${tax.toFixed(2)}`;
+            document.getElementById('cart-total').innerText = `$${total.toFixed(2)}`;
+        }
+
+        function toggleCartDrawer(forceOpen = false) {
+            const drawer = document.getElementById('cart-drawer');
+            const content = document.getElementById('cart-content');
+            
+            const isOpen = !drawer.classList.contains('opacity-0');
+
+            if (forceOpen || !isOpen) {
+                drawer.classList.remove('opacity-0', 'pointer-events-none');
+                content.classList.remove('translate-x-full');
+            } else {
+                drawer.classList.add('opacity-0', 'pointer-events-none');
+                content.classList.add('translate-x-full');
+            }
+        }
+
+        function processCheckout() {
+            alert('🔥 Thank you for your order! Our chef is preparing your spicy feast. Delivery confirmation sent via SMS.');
+            cart = [];
+            updateCartUI();
+            toggleCartDrawer();
+        }
+
+        /* MODAL DETAILS VIEW */
+        function openDishModal(dishId) {
+            const dish = MENU_DATA.find(d => d.id === dishId);
+            if (!dish) return;
+
+            const modalBody = document.getElementById('dish-modal-body');
+            modalBody.innerHTML = `
+                <div class="relative h-64 overflow-hidden">
+                    <img src="${dish.image}" alt="${dish.title}" class="w-full h-full object-cover">
+                    <div class="absolute inset-0 bg-gradient-to-t from-black/80 via-transparent to-transparent"></div>
+                    <div class="absolute bottom-4 left-6 text-white">
+                        <span class="text-xs uppercase text-paprika-500 font-bold tracking-widest">${dish.category}</span>
+                        <h3 class="text-2xl font-bold font-serif">${dish.title}</h3>
+                    </div>
+                </div>
+                <div class="p-6 space-y-4">
+                    <p class="text-gray-600 text-sm leading-relaxed">${dish.description}</p>
+                    
+                    <div class="grid grid-cols-2 gap-4 bg-cream p-4 rounded-2xl text-xs">
+                        <div>
+                            <span class="text-gray-400 block font-medium">Estimated Calories</span>
+                            <span class="font-bold text-charcoal-900">${dish.calories}</span>
+                        </div>
+                        <div>
+                            <span class="text-gray-400 block font-medium">Allergen Notice</span>
+                            <span class="font-bold text-charcoal-900">${dish.allergens}</span>
+                        </div>
+                    </div>
+
+                    <div class="flex items-center justify-between pt-2">
+                        <span class="text-2xl font-extrabold text-chilli-600">$${dish.price.toFixed(2)}</span>
+                        <button onclick="addToCart('${dish.id}'); closeDishModal();" class="bg-chilli-600 hover:bg-chilli-700 text-white font-bold px-6 py-3 rounded-full text-sm shadow-md transition-colors">
+                            Add to Cart
+                        </button>
+                    </div>
+                </div>
+            `;
+
+            const modal = document.getElementById('dish-modal');
+            modal.classList.remove('opacity-0', 'pointer-events-none');
+            document.getElementById('dish-modal-content').classList.remove('scale-95');
+        }
+
+        function closeDishModal() {
+            const modal = document.getElementById('dish-modal');
+            modal.classList.add('opacity-0', 'pointer-events-none');
+            document.getElementById('dish-modal-content').classList.add('scale-95');
+        }
+
+        /* RESERVATION MODAL CONTROLLER */
+        function openReservationModal() {
+            const modal = document.getElementById('reservation-modal');
+            modal.classList.remove('opacity-0', 'pointer-events-none');
+        }
+
+        function closeReservationModal() {
+            const modal = document.getElementById('reservation-modal');
+            modal.classList.add('opacity-0', 'pointer-events-none');
+        }
+
+        function handleReservationSubmit(e) {
+            e.preventDefault();
+            alert('🎉 Reservation Confirmed! A SMS confirmation has been sent to your device. We look forward to hosting you.');
+            closeReservationModal();
+        }
+
+        function setMinBookingDate() {
+            const dateInput = document.getElementById('res-date');
+            if (dateInput) {
+                const today = new Date().toISOString().split('T')[0];
+                dateInput.min = today;
+            }
+        }
+
+        /* MOBILE MENU TOGGLE */
+        function toggleMobileMenu() {
+            const menu = document.getElementById('mobile-menu');
+            menu.classList.toggle('hidden');
+        }
+    </script>
+</body>
+</html>
